@@ -53,6 +53,8 @@
 
   --radius-sm: 0.375rem;
   --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 999px;
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-fast: 180ms;

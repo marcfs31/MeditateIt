@@ -104,9 +104,9 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  background-color: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  background-color: color-mix(in srgb, var(--bg-elevated) 88%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  border-radius: var(--radius-pill);
   min-height: 2.25rem;
 }
 
@@ -165,7 +165,7 @@
   background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
   border: 0;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-pill);
   padding: 0.45rem 1.75rem 0.45rem 3.15rem;
   cursor: pointer;
   min-width: 5.75rem;
@@ -206,7 +206,7 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--ink);
-  background-color: var(--bg-elevated);
+  background-color: color-mix(in srgb, var(--bg-elevated) 88%, var(--surface));
   background-image: linear-gradient(45deg, transparent 50%, var(--ink-muted) 50%),
     linear-gradient(135deg, var(--ink-muted) 50%, transparent 50%);
   background-position:
@@ -214,8 +214,8 @@
     calc(100% - 9px) 55%;
   background-size: 5px 5px, 5px 5px;
   background-repeat: no-repeat;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  border-radius: var(--radius-pill);
   padding: 0.45rem 1.75rem 0.45rem 1.85rem;
   cursor: pointer;
   max-width: 100%;
@@ -241,9 +241,9 @@
   justify-content: center;
   width: 2.25rem;
   height: 2.25rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background-color: var(--bg-elevated);
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  border-radius: var(--radius-pill);
+  background-color: color-mix(in srgb, var(--bg-elevated) 88%, var(--surface));
   color: var(--ink);
   text-decoration: none;
 }
@@ -535,10 +535,13 @@
 .preset-list {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: var(--space-2);
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--border);
+  gap: var(--space-1);
+  background-color: color-mix(in srgb, var(--bg-elevated) 92%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  border-radius: var(--radius-lg);
 }
 
 .preset-list li {
@@ -550,21 +553,40 @@
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto;
   gap: 0.15rem 1rem;
-  padding: 1rem 0.15rem;
-  border-bottom: 1px solid var(--border);
+  padding: 0.85rem 0.75rem;
+  border-bottom: none;
   text-decoration: none;
   color: inherit;
-  transition: background-color var(--motion-fast) var(--ease-out);
+  border-radius: var(--radius-md);
+  transition:
+    background-color var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out);
 }
 
 .preset-link:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
 }
 
 .preset-link:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
+}
+
+.preset-list li:not(:last-child) .preset-link {
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 35%, transparent);
+}
+
+.preset-list li:first-child .preset-link:hover,
+.preset-list li:first-child .preset-link:focus-visible {
+  border-start-start-radius: calc(var(--radius-lg) - var(--space-2));
+  border-start-end-radius: calc(var(--radius-lg) - var(--radius-sm));
+}
+
+.preset-list li:last-child .preset-link:hover,
+.preset-list li:last-child .preset-link:focus-visible {
+  border-end-start-radius: calc(var(--radius-lg) - var(--space-2));
+  border-end-end-radius: calc(var(--radius-lg) - var(--radius-sm));
 }
 
 .preset-name {
@@ -596,7 +618,11 @@
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: stretch;
-  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.preset-list li:not(:last-child) .preset-row {
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 35%, transparent);
 }
 
 .preset-row .preset-link {
