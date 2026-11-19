@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
-/** Project Pages prefix (`/MeditateIt/`). Root deploys (local, Vercel) stay `/`. */
+/** Project Pages prefix (`/MeditateIt/`). Local / root hosts stay `/` when unset. */
 function pagesBase(): string {
   const raw = process.env.PAGES_BASE?.trim()
   if (!raw || raw === '/') return '/'

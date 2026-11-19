@@ -187,7 +187,7 @@ The public site is GitHub Pages: [https://marcfs31.github.io/MeditateIt/](https:
 
 `.github/workflows/pages.yml` runs on pushes to `main` of [marcfs31/MeditateIt](https://github.com/marcfs31/MeditateIt). It sets Vite `base` from the Pages project path (`/MeditateIt/`), copies `index.html` to `404.html` so client routes survive a refresh, and publishes `dist`. Local `npm run dev` and a root host stay at `/` when `PAGES_BASE` is unset.
 
-The CSP meta tag in `index.html` still applies in the browser. GitHub Pages does not apply `public/_headers` or `vercel.json`. `vercel.json` remains for an optional root deploy.
+The CSP meta tag in `index.html` still applies in the browser. GitHub Pages does not apply `public/_headers` (Netlify-style). The old `meditateit.vercel.app` project is paused and no longer the public host.
 
 ## Public vs private remotes
 
