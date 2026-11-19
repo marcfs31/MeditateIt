@@ -1,3 +1,5 @@
+import { withBase } from '../basePath.ts'
+
 /** Must match `registerProcessor` name in public/worklets/noise-processor.js. */
 export const NOISE_WORKLET_NAME = 'meditateit-noise' as const
 
@@ -6,7 +8,10 @@ export const NOISE_WORKLET_NAME = 'meditateit-noise' as const
  * Prefer fetching this URL (hits precache offline), then addModule via blob
  * or a content-hash query so a stale module identity cannot linger silently.
  */
-export const NOISE_WORKLET_URL = '/worklets/noise-processor.js' as const
+export const NOISE_WORKLET_URL = withBase(
+  import.meta.env.BASE_URL ?? '/',
+  '/worklets/noise-processor.js',
+)
 
 /**
  * SHA-256 prefix (16 hex) of `public/worklets/noise-processor.js`.

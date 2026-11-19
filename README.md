@@ -2,7 +2,7 @@
 
 Local-first generative meditation soundscapes — noise beds, named tones (Hz), binaural/isochronic beats, and nature layers you shape in the browser. Vite + React + TypeScript, installable as a PWA.
 
-**Live:** [https://meditateit.vercel.app](https://meditateit.vercel.app)
+**Live:** [https://marcfs31.github.io/MeditateIt/](https://marcfs31.github.io/MeditateIt/)
 
 Not a medical device. Copy stays in listening / wellness language (softened labels, no treatment claims).
 
@@ -17,7 +17,7 @@ Not a medical device. Copy stays in listening / wellness language (softened labe
 - **PWA / install** — `vite-plugin-pwa` (prompted update + discreet install affordance), offline app shell, self-hosted OFL fonts, AudioWorklet noise processor precached
 - **Local-only data** — prefs, user presets, sequences, and session history in `localStorage`; JSON backup export/import (merge or replace); retention + erase-all
 - **Privacy / terms stubs** — wellness disclaimer footer; no accounts, no trackers, CSP that stays checkable
-- **CI** — lint + test + build on Blacksmith (`blacksmith-2vcpu-ubuntu-2404`) when the workflow is enabled on the remote
+- **GitHub Pages** — public site at `marcfs31.github.io/MeditateIt`. The Pages workflow lints, tests, and builds on `ubuntu-latest`, then deploys. Project path is `/MeditateIt/` (`PAGES_BASE`)
 
 ## Architecture
 
@@ -72,8 +72,7 @@ end
 
 subgraph group_build["Build and host"]
   node_vite["Vite + PWA plugin<br/>[vite.config.ts]"]
-  node_vercel["Vercel static host<br/>[vercel.json]"]
-  node_ci["Blacksmith CI<br/>[.github/workflows/ci.yml]"]
+  node_pages["GitHub Pages<br/>[.github/workflows/pages.yml]"]
 end
 
 node_listener(("Listener"))
@@ -104,8 +103,7 @@ node_prefs --> node_ls
 node_userpresets --> node_ls
 node_history --> node_ls
 node_backup --> node_ls
-node_vite --> node_vercel
-node_ci -->|"lint test build"| node_vite
+node_vite -->|"PAGES_BASE=/MeditateIt/"| node_pages
 ```
 
 ## Run
@@ -181,7 +179,11 @@ UI and legal strings describe a generative sound tool for personal wellness and 
 
 ## Deploy
 
-Static Vite build on Vercel: [https://meditateit.vercel.app](https://meditateit.vercel.app) (`vercel.json`). CSP headers ship from `public/_headers` / the production host config.
+The public site is GitHub Pages: [https://marcfs31.github.io/MeditateIt/](https://marcfs31.github.io/MeditateIt/).
+
+`.github/workflows/pages.yml` runs on pushes to `main` of [marcfs31/MeditateIt](https://github.com/marcfs31/MeditateIt). It sets Vite `base` from the Pages project path (`/MeditateIt/`), copies `index.html` to `404.html` so client routes survive a refresh, and publishes `dist`. Local `npm run dev` and a root host stay at `/` when `PAGES_BASE` is unset.
+
+The CSP meta tag in `index.html` still applies in the browser. GitHub Pages does not apply `public/_headers` or `vercel.json`. `vercel.json` remains for an optional root deploy.
 
 ## Public vs private remotes
 

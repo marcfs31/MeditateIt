@@ -410,7 +410,7 @@ export const en = {
     privacyKeyRetention: 'session history retention preference',
     privacyNetworkHeading: 'Network',
     privacyNetworkBody:
-      'Fonts used by the UI are self-hosted with the app. There is no first-party analytics in the current build. The public site at meditateit.vercel.app is hosted on Vercel; Vercel may keep hosting access logs (for example IP, user agent, URL, and timing). That host logging is outside this app’s localStorage. Hosting your own copy may still involve whatever your host or CDN logs.',
+      'Fonts used by the UI are self-hosted with the app. There is no first-party analytics in the current build. The public site at marcfs31.github.io/MeditateIt is hosted on GitHub Pages; GitHub may keep hosting access logs (for example IP, user agent, URL, and timing). That host logging is outside this app’s localStorage. Hosting your own copy may still involve whatever your host or CDN logs.',
     termsTitle: 'Terms',
     termsLede:
       'Brief product notes for personal use of MeditateIt. This is not a formal terms of service and is not legal advice.',

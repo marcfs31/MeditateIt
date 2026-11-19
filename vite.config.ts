@@ -1,9 +1,22 @@
+import { copyFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+/** Project Pages prefix (`/MeditateIt/`). Root deploys (local, Vercel) stay `/`. */
+function pagesBase(): string {
+  const raw = process.env.PAGES_BASE?.trim()
+  if (!raw || raw === '/') return '/'
+  const withLead = raw.startsWith('/') ? raw : `/${raw}`
+  return withLead.endsWith('/') ? withLead : `${withLead}/`
+}
+
+const base = pagesBase()
+
 // https://vite.dev/config/
 export default defineConfig({
+  base,
   plugins: [
     react(),
     VitePWA({
@@ -24,8 +37,8 @@ export default defineConfig({
         background_color: '#e4efe9',
         display: 'standalone',
         orientation: 'portrait-primary',
-        start_url: '/',
-        scope: '/',
+        start_url: base,
+        scope: base,
         lang: 'en',
         // No "health" — lifestyle/wellness only (audit / W4-6).
         categories: ['lifestyle', 'wellness'],
@@ -54,7 +67,7 @@ export default defineConfig({
         // App shell + hashed assets (icons/fonts/worklet via public → dist).
         // Omit webmanifest — the plugin already precaches the generated manifest.
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
-        navigateFallback: '/index.html',
+        navigateFallback: `${base}index.html`,
         navigateFallbackDenylist: [/^\/api\//],
         cleanupOutdatedCaches: true,
         // No skipWaiting / clientsClaim — waiting SW activates only after the
@@ -64,5 +77,14 @@ export default defineConfig({
         enabled: false,
       },
     }),
+    {
+      name: 'spa-404',
+      apply: 'build',
+      closeBundle() {
+        if (base === '/') return
+        const dist = resolve('dist')
+        copyFileSync(resolve(dist, 'index.html'), resolve(dist, '404.html'))
+      },
+    },
   ],
 })

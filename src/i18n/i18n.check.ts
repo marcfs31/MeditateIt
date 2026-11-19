@@ -160,8 +160,8 @@ for (const locale of LOCALES) {
     assert.match(name, /Hz/i)
   }
 
-  assert.match(catalog.legal.privacyNetworkBody, /Vercel/i)
-  assert.match(catalog.legal.privacyNetworkBody, /meditateit\.vercel\.app/i)
+  assert.match(catalog.legal.privacyNetworkBody, /GitHub Pages/i)
+  assert.match(catalog.legal.privacyNetworkBody, /marcfs31\.github\.io\/MeditateIt/i)
   assert.ok(catalog.legal.privacyKeySequences.trim().length > 0)
   assert.ok(catalog.legal.privacyKeyRetention.trim().length > 0)
   assert.match(

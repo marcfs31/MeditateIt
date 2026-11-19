@@ -388,7 +388,7 @@ export const fr: Messages = {
     privacyKeyRetention: 'préférence de rétention de l’historique de sessions',
     privacyNetworkHeading: 'Réseau',
     privacyNetworkBody:
-      'Les polices de l’interface sont auto-hébergées avec l’app. Il n’y a pas d’analytique propriétaire dans la version actuelle. Le site public meditateit.vercel.app est hébergé sur Vercel ; Vercel peut conserver des journaux d’accès d’hébergement (par exemple IP, agent utilisateur, URL et horodatage). Ces journaux d’hôte sont hors du localStorage de cette app. Héberger votre propre copie peut encore impliquer les journaux de votre hébergeur ou CDN.',
+      'Les polices de l’interface sont auto-hébergées avec l’app. Il n’y a pas d’analytique propriétaire dans la version actuelle. Le site public marcfs31.github.io/MeditateIt est hébergé sur GitHub Pages ; GitHub peut conserver des journaux d’accès d’hébergement (par exemple IP, agent utilisateur, URL et horodatage). Ces journaux d’hôte sont hors du localStorage de cette app. Héberger votre propre copie peut encore impliquer les journaux de votre hébergeur ou CDN.',
     termsTitle: 'Conditions',
     termsLede:
       'Brèves notes pour un usage personnel de MeditateIt. Ce ne sont pas des conditions d’utilisation formelles ni un conseil juridique.',

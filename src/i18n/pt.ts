@@ -388,7 +388,7 @@ export const pt: Messages = {
     privacyKeyRetention: 'preferência de retenção do histórico de sessões',
     privacyNetworkHeading: 'Rede',
     privacyNetworkBody:
-      'As fontes da interface são auto-alojadas com a app. Não há analítica própria na versão atual. O site público em meditateit.vercel.app está alojado na Vercel; a Vercel pode guardar registos de acesso do alojamento (por exemplo IP, agente de utilizador, URL e tempos). Esse registo do anfitrião fica fora do localStorage desta app. Alojando a tua própria cópia, pode ainda haver o que o teu anfitrião ou CDN regista.',
+      'As fontes da interface são auto-alojadas com a app. Não há analítica própria na versão atual. O site público em marcfs31.github.io/MeditateIt está alojado no GitHub Pages; o GitHub pode guardar registos de acesso do alojamento (por exemplo IP, agente de utilizador, URL e tempos). Esse registo do anfitrião fica fora do localStorage desta app. Alojando a tua própria cópia, pode ainda haver o que o teu anfitrião ou CDN regista.',
     termsTitle: 'Termos',
     termsLede:
       'Notas breves para uso pessoal do MeditateIt. Não são termos de serviço formais nem aconselhamento jurídico.',

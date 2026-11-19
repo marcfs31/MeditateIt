@@ -388,7 +388,7 @@ export const ca: Messages = {
     privacyKeyRetention: 'preferència de retenció de l’historial de sessions',
     privacyNetworkHeading: 'Xarxa',
     privacyNetworkBody:
-      'Les fonts de la interfície s’allotgen amb l’app. No hi ha analítica pròpia en la versió actual. El lloc públic a meditateit.vercel.app s’allotja a Vercel; Vercel pot desar registres d’accés de l’allotjament (per exemple IP, agent d’usuari, URL i temps). Aquest registre de l’amfitrió queda fora del localStorage d’aquesta app. Si allotges la teva còpia, pot intervenir el que registri el teu amfitrió o CDN.',
+      'Les fonts de la interfície s’allotgen amb l’app. No hi ha analítica pròpia en la versió actual. El lloc públic a marcfs31.github.io/MeditateIt s’allotja a GitHub Pages; GitHub pot desar registres d’accés de l’allotjament (per exemple IP, agent d’usuari, URL i temps). Aquest registre de l’amfitrió queda fora del localStorage d’aquesta app. Si allotges la teva còpia, pot intervenir el que registri el teu amfitrió o CDN.',
     termsTitle: 'Termes',
     termsLede:
       'Notes breus per a l’ús personal de MeditateIt. No són unes condicions de servei formals ni assessorament legal.',
