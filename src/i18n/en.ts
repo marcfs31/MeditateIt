@@ -391,6 +391,9 @@ export const en = {
     installPrompt: 'Install MeditateIt on this device',
     install: 'Install',
     dismiss: 'Dismiss',
+    iosInstallTitle: 'Add MeditateIt to your Home Screen',
+    iosInstallStepShare: 'Tap Share in Safari',
+    iosInstallStepAdd: 'Choose Add to Home Screen',
   },
 
   legal: {

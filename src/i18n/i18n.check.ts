@@ -112,6 +112,10 @@ for (const locale of LOCALES) {
   assert.ok(getMessages().settings.languageChromeNote.trim().length > 0)
   assert.ok(getMessages().settings.themeChromeNote.trim().length > 0)
   assert.ok(getMessages().settings.themeSystem.trim().length > 0)
+  assert.ok(getMessages().pwa.install.trim().length > 0)
+  assert.ok(getMessages().pwa.iosInstallTitle.trim().length > 0)
+  assert.ok(getMessages().pwa.iosInstallStepShare.trim().length > 0)
+  assert.ok(getMessages().pwa.iosInstallStepAdd.trim().length > 0)
 }
 
 assert.equal(applyLocalePreference(null, ['es-MX']), 'es')

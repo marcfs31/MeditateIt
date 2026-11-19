@@ -1,19 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useRegisterSW } from 'virtual:pwa-register/react'
-import { useI18n } from '../i18n/useI18n'
+import { isAudioPlaybackActive } from '../pwa/audioPlaybackGate'
 
-/** Chromium beforeinstallprompt (not in all DOM lib versions). */
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>
-}
+/** Quiet settle after audio stops / route change before claiming the waiting SW. */
+const QUIET_MS = 900
+/** Poll while deferred so pause/stop can apply the update without a modal. */
+const BUSY_POLL_MS = 1500
 
 /**
- * Safer PWA update UX (prompt, not silent claim) + discreet install affordance.
- * No nag modal — only surfaces when an update is waiting or install is available.
+ * Smart PWA auto-update (registerType: prompt).
+ *
+ * When a waiting service worker is ready:
+ * - Apply automatically after idle / navigation / a short quiet window.
+ * - Never interrupt active audio — keep deferring until pause/stop settles.
+ * - No reload nag modal; activation happens when safe.
  */
 export default function PwaChrome() {
-  const { messages } = useI18n()
+  const { pathname } = useLocation()
+  const applyingRef = useRef(false)
+  const quietTimerRef = useRef<number | null>(null)
+
   const {
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,
@@ -21,79 +28,55 @@ export default function PwaChrome() {
     immediate: true,
   })
 
-  const [installEvent, setInstallEvent] =
-    useState<BeforeInstallPromptEvent | null>(null)
-  const [installHidden, setInstallHidden] = useState(false)
-
   useEffect(() => {
-    const onPrompt = (event: Event) => {
-      event.preventDefault()
-      setInstallEvent(event as BeforeInstallPromptEvent)
+    if (!needRefresh || applyingRef.current) return
+
+    const clearQuiet = () => {
+      if (quietTimerRef.current != null) {
+        window.clearTimeout(quietTimerRef.current)
+        quietTimerRef.current = null
+      }
     }
-    const onInstalled = () => {
-      setInstallEvent(null)
+
+    const applyWhenQuiet = () => {
+      if (applyingRef.current || !needRefresh) return
+      if (isAudioPlaybackActive()) return
+      clearQuiet()
+      quietTimerRef.current = window.setTimeout(() => {
+        quietTimerRef.current = null
+        if (applyingRef.current) return
+        if (isAudioPlaybackActive()) return
+        applyingRef.current = true
+        setNeedRefresh(false)
+        void updateServiceWorker(true).finally(() => {
+          applyingRef.current = false
+        })
+      }, QUIET_MS)
     }
-    window.addEventListener('beforeinstallprompt', onPrompt)
-    window.addEventListener('appinstalled', onInstalled)
+
+    applyWhenQuiet()
+
+    const pollId = window.setInterval(() => {
+      if (!needRefresh || applyingRef.current) return
+      if (isAudioPlaybackActive()) {
+        clearQuiet()
+        return
+      }
+      applyWhenQuiet()
+    }, BUSY_POLL_MS)
+
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') applyWhenQuiet()
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+
     return () => {
-      window.removeEventListener('beforeinstallprompt', onPrompt)
-      window.removeEventListener('appinstalled', onInstalled)
+      clearQuiet()
+      window.clearInterval(pollId)
+      document.removeEventListener('visibilitychange', onVisibility)
     }
-  }, [])
+  }, [needRefresh, pathname, setNeedRefresh, updateServiceWorker])
 
-  const showInstall = installEvent != null && !installHidden && !needRefresh
-
-  if (!needRefresh && !showInstall) return null
-
-  return (
-    <div className="pwa-chrome" role="status" aria-live="polite">
-      {needRefresh ? (
-        <div className="pwa-chrome-row">
-          <p className="pwa-chrome-copy">{messages.pwa.updateAvailable}</p>
-          <div className="pwa-chrome-actions">
-            <button
-              type="button"
-              className="btn btn-primary pwa-chrome-btn"
-              onClick={() => void updateServiceWorker(true)}
-            >
-              {messages.pwa.reload}
-            </button>
-            <button
-              type="button"
-              className="btn btn-ghost pwa-chrome-btn"
-              onClick={() => setNeedRefresh(false)}
-            >
-              {messages.pwa.later}
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="pwa-chrome-row">
-          <p className="pwa-chrome-copy">{messages.pwa.installPrompt}</p>
-          <div className="pwa-chrome-actions">
-            <button
-              type="button"
-              className="btn btn-ghost pwa-chrome-btn"
-              onClick={() => {
-                const event = installEvent
-                if (!event) return
-                void event.prompt().then(() => {
-                  setInstallEvent(null)
-                })
-              }}
-            >
-              {messages.pwa.install}
-            </button>
-            <button
-              type="button"
-              className="btn btn-ghost pwa-chrome-btn"
-              onClick={() => setInstallHidden(true)}
-            >
-              {messages.pwa.dismiss}
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  )
+  // Invisible bridge — install lives in the header; updates apply when safe.
+  return null
 }

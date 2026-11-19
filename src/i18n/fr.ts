@@ -369,6 +369,9 @@ export const fr: Messages = {
     installPrompt: 'Installer MeditateIt sur cet appareil',
     install: 'Installer',
     dismiss: 'Ignorer',
+    iosInstallTitle: 'Ajouter MeditateIt à l’écran d’accueil',
+    iosInstallStepShare: 'Touchez Partager dans Safari',
+    iosInstallStepAdd: 'Choisissez Sur l’écran d’accueil',
   },
 
   legal: {

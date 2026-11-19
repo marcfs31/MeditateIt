@@ -4,6 +4,7 @@ import './App.css'
 import AppFooter from './components/AppFooter'
 import LanguagePicker from './components/LanguagePicker'
 import PwaChrome from './components/PwaChrome'
+import PwaInstallButton from './components/PwaInstallButton'
 import SettingsGearLink from './components/SettingsGearLink'
 import { ThemePicker } from './components/ThemePicker'
 import type { Messages } from './i18n'
@@ -65,6 +66,7 @@ function App() {
         <div className="header-actions">
           <LanguagePicker variant="chrome" />
           <ThemePicker variant="chrome" />
+          <PwaInstallButton />
           <SettingsGearLink />
         </div>
       </header>

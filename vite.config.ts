@@ -20,7 +20,8 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      // Explicit “Update available — Reload” via virtual:pwa-register/react.
+      // Waiting SW + smart client apply (idle/nav/quiet; never during audio).
+      // See PwaChrome — no reload nag when activation is safe.
       registerType: 'prompt',
       injectRegister: false,
       // Public assets are copied into dist/ and matched by globPatterns —
@@ -70,8 +71,8 @@ export default defineConfig({
         navigateFallback: `${base}index.html`,
         navigateFallbackDenylist: [/^\/api\//],
         cleanupOutdatedCaches: true,
-        // No skipWaiting / clientsClaim — waiting SW activates only after the
-        // user chooses Reload (registerType: 'prompt').
+        // No skipWaiting / clientsClaim — waiting SW activates when the client
+        // calls updateServiceWorker(true) after audio is quiet (registerType: prompt).
       },
       devOptions: {
         enabled: false,

@@ -138,12 +138,16 @@ npm test         # pure *.check.ts harness (storage, recipe/EQ, i18n, CSP smoke)
 
 Production builds register a service worker via `vite-plugin-pwa` (`registerType: 'prompt'`). The SW precaches the app shell (HTML/JS/CSS/icons/manifest), self-hosted OFL fonts under `public/fonts/`, and `public/worklets/noise-processor.js`. No third-party font or analytics CDNs.
 
+**Install:** a header Install control (near language / theme / settings) uses Chromium `beforeinstallprompt`, or iOS Safari Add to Home Screen guidance. The control hides when the app is already running as an installed PWA (`display-mode: standalone` / iOS `navigator.standalone`).
+
+**Smart auto-update:** when a waiting service worker is ready, the client applies it after a short quiet window on idle / navigation / visibility return. It never activates during active generative audio — updates defer until pause/stop settles. No reload nag modal when activation is safe.
+
 To verify installability locally:
 
 1. `npm run build && npm run preview`
 2. Open the preview URL over `http://localhost…` (Chromium treats localhost as a secure context)
 3. DevTools → Application → Manifest / Service Workers
-4. Chrome/Edge address bar → Install app (or App menu → Install MeditateIt)
+4. Header Install control, or Chrome/Edge address bar → Install app
 
 ### Offline shell
 

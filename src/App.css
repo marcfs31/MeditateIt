@@ -40,41 +40,6 @@
   outline-offset: 4px;
 }
 
-.pwa-chrome {
-  margin-top: var(--space-4);
-  padding: var(--space-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-elevated);
-  backdrop-filter: blur(8px);
-}
-
-.pwa-chrome-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-}
-
-.pwa-chrome-copy {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--ink);
-  font-weight: 500;
-}
-
-.pwa-chrome-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.pwa-chrome-btn {
-  padding: 0.55rem 1rem;
-  font-size: 0.9rem;
-}
-
 .app-shell.is-home {
   padding-top: var(--space-3);
 }
@@ -98,6 +63,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+  flex-wrap: nowrap;
 }
 
 .language-chrome {
@@ -107,7 +73,7 @@
   background-color: color-mix(in srgb, var(--bg-elevated) 88%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
   border-radius: var(--radius-pill);
-  min-height: 2.25rem;
+  min-height: var(--touch-min);
 }
 
 .language-chrome:hover {
@@ -166,9 +132,10 @@
   background-repeat: no-repeat;
   border: 0;
   border-radius: var(--radius-pill);
-  padding: 0.45rem 1.75rem 0.45rem 3.15rem;
+  padding: 0.55rem 1.75rem 0.55rem 3.15rem;
   cursor: pointer;
   min-width: 5.75rem;
+  min-height: var(--touch-min);
   max-width: 100%;
 }
 
@@ -216,8 +183,9 @@
   background-repeat: no-repeat;
   border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
   border-radius: var(--radius-pill);
-  padding: 0.45rem 1.75rem 0.45rem 1.85rem;
+  padding: 0.55rem 1.75rem 0.55rem 1.85rem;
   cursor: pointer;
+  min-height: var(--touch-min);
   max-width: 100%;
 }
 
@@ -235,12 +203,82 @@
   cursor: not-allowed;
 }
 
+.install-chrome {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.install-chrome-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  border-radius: var(--radius-pill);
+  background-color: color-mix(in srgb, var(--bg-elevated) 88%, var(--surface));
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.install-chrome-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.install-chrome-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.install-chrome-icon {
+  display: block;
+}
+
+.install-chrome-tip {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  inset-inline-end: 0;
+  z-index: 40;
+  width: min(16.5rem, calc(100vw - 2rem));
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-solid);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--ink) 16%, transparent);
+}
+
+.install-chrome-tip-title {
+  margin: 0 0 var(--space-2);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.install-chrome-tip-steps {
+  margin: 0 0 var(--space-3);
+  padding-inline-start: 1.15rem;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+}
+
+.install-chrome-tip-steps li + li {
+  margin-top: 0.35rem;
+}
+
+.install-chrome-tip-dismiss {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.85rem;
+}
+
 .settings-chrome {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: var(--touch-min);
+  height: var(--touch-min);
   border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
   border-radius: var(--radius-pill);
   background-color: color-mix(in srgb, var(--bg-elevated) 88%, var(--surface));
@@ -1112,6 +1150,64 @@
   }
   to {
     transform: translate3d(3%, 4%, 0) scale(1.06);
+  }
+}
+
+/* Narrow header chrome — keep actions on one row; compact language/theme. */
+@media (max-width: 40rem) {
+  .app-shell {
+    padding: var(--space-3) var(--space-2) var(--space-5);
+  }
+
+  .app-header {
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .header-actions {
+    gap: 0.35rem;
+  }
+
+  .language-chrome-code {
+    display: none;
+  }
+
+  .language-chrome-select {
+    min-width: var(--touch-min);
+    padding-inline: 2.1rem 1.55rem;
+    background-position:
+      calc(100% - 11px) 55%,
+      calc(100% - 6px) 55%;
+  }
+
+  .language-chrome-face {
+    inset-inline-start: 0.55rem;
+  }
+
+  .theme-chrome-select {
+    /* Swatch-only closed face on narrow viewports. */
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    min-width: var(--touch-min);
+    width: var(--touch-min);
+    padding-inline: 0 1.35rem;
+    background-position:
+      calc(100% - 11px) 55%,
+      calc(100% - 6px) 55%;
+  }
+
+  .theme-chrome-select option {
+    color: CanvasText;
+    background-color: Canvas;
+    -webkit-text-fill-color: CanvasText;
+  }
+
+  .theme-chrome-swatch {
+    inset-inline-start: 0.7rem;
+  }
+
+  .app-tagline {
+    display: none;
   }
 }
 
